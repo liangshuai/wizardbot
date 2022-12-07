@@ -3,10 +3,10 @@ import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 function addCorsIfNeeded(response: Response) {
     const headers = new Headers(response.headers);
   
-    if (!headers.has("access-control-allow-origin")) {
-      headers.set("access-control-allow-origin", "*");
-    }
-  
+    headers.set("Access-Control-Allow-Origin", "*");
+    headers.set('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version')
+    headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    headers.set('Access-Control-Allow-Credentials', 'true');
     return headers;
 }
 
