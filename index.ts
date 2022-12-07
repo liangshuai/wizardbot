@@ -1,11 +1,18 @@
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 
-function handler(req) {
-  // Create a post request
+async function handler(req) {
+    const body = await req.arrayBuffer();
+    const text = new TextDecoder("utf-8").decode(body);
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch (_) {
+      return new Response("No body found", { status: 400 });
+    }
   const request = new Request("https://chatgpt-deno.vercel.app/api/ask", {
     method: "POST",
     body: JSON.stringify({
-      question: req.body.question || req.query.question,
+      question: json.question,
     }),
     headers: {
       "content-type": "application/json",
