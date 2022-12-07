@@ -22,7 +22,15 @@ async function handler(req) {
   console.log(request.method); // POST
   console.log(request.headers.get("content-type")); // application/json
 
-  return fetch(request);
+  const res = await fetch(request);
+  return new Response(res.body, {
+    headers: {
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+        'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    }
+  })
 }
 
 serve(handler);
